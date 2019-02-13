@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/ateryohin/CLionProjects/untitled/TIMER.h
+iostream
+-
+ctime
+-
+
+/home/ateryohin/CLionProjects/untitled/main.cpp
+cmath
+-
+emmintrin.h
+-
+TIMER.h
+/home/ateryohin/CLionProjects/untitled/TIMER.h
+
