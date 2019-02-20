@@ -5,67 +5,50 @@ std::default_random_engine generator;
 std::uniform_int_distribution<int> distribution(1,6);
 
 // size of array 
-#define MAX 12
+#define MAX 100
 
 // maximum number of threads 
-#define MAX_THREAD 4
+#define MAX_THREAD 10
 
 using namespace std;
 
-int a[MAX];// = { 1, 5, 7, 10, 12, 14, 15, 18, 20, 22, 25, 27, 30, 64, 110, 220 };
+int a[MAX];
 int sum[4] = { 0 };
 int part = 0;
-int maxEl = 0;
+int maxEl = -1000000;
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
 
 void* sum_array(void* arg){
     int thread_part = (*(int*)arg);
-
-    for (int i = thread_part * (MAX / 4); i < (thread_part + 1) * (MAX / 4); i++) {
+    for (int i = thread_part * (MAX / MAX_THREAD); i < (thread_part + 1) * (MAX / MAX_THREAD); i++) {
         sum[thread_part] += a[i];
     }
 }
 
 void* findMax(void* arg){
-    int thread_part = (*(int*)arg);
-    for (int i = thread_part * (MAX / 4); i < (thread_part + 1) * (MAX / 4); i++) {
-        pthread_mutex_lock(&mutex);
-        if (a[i] > maxEl){
-            maxEl = a[i];
+    int thread_part = *(int*)arg;
+    printf("\r\nThread num: %d", thread_part);
+    for (int i = thread_part * (MAX / MAX_THREAD); i < (thread_part + 1) * (MAX / MAX_THREAD); i++) {
+        if (a[i] > maxEl) {
+            pthread_mutex_lock(&mutex);
+            if (a[i] > maxEl) {
+                maxEl = a[i];
+            }
+            pthread_mutex_unlock(&mutex);
         }
-        pthread_mutex_unlock(&mutex);
     }
 }
 
-void* printNumThread(void* threadNum) {
-//    string tn = std::to_string(threadNum);
-    printf("\r\nThread num: %d", (*(int*)threadNum));
-}
-
-int main()
-{
+int main() {
     for (int i = 0; i < MAX; i++){
         a[i] = 0;
     }
 
     for (int i = 0; i < MAX; i++){
-        a[i] = distribution(generator);
+        a[i] =  i;
         printf("%d ", a[i]);
     }
-
-    pthread_t threadsPrint[MAX_THREAD];
-
-    // Creating 4 threads
-    for (int i = 0; i < MAX_THREAD; i++) {
-        int* threadNum = (int*) malloc(sizeof(int));
-        *threadNum = i;
-        pthread_create(&threadsPrint[i], NULL, printNumThread, threadNum);
-    }
-
-
-    for (int i = 0; i < MAX_THREAD; i++)
-        pthread_join(threadsPrint[i], NULL);
 
     pthread_t threadsSum[MAX_THREAD];
 
