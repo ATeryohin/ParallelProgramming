@@ -1,0 +1,3 @@
+/home/ateryohin/workspace/pp/lab2/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/ateryohin/workspace/pp/lab2/cmake-build-debug/CMakeFiles/lab2.dir
+/home/ateryohin/workspace/pp/lab2/cmake-build-debug/CMakeFiles/edit_cache.dir
