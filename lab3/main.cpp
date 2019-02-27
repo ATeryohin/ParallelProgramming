@@ -25,13 +25,10 @@ void *summ_array() {
 }
 
 void *find_max() {
-    #pragma omp parallel for num_threads(MAX_THREAD)
+    #pragma omp parallel for reduction(max : max)
     for (int i = 0; i < MAX; i++){
-        if ( max < a[i]) {
-            #pragma omp critical
-            if (max < a[i]){
-                max = a[i];
-            }
+        if (max < a[i]){
+            max = a[i];
         }
     }
 }
