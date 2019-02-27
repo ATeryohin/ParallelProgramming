@@ -1,0 +1,3 @@
+/home/ateryohin/worksapce/pp/lab3/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/ateryohin/worksapce/pp/lab3/cmake-build-debug/CMakeFiles/lab3.dir
+/home/ateryohin/worksapce/pp/lab3/cmake-build-debug/CMakeFiles/edit_cache.dir
