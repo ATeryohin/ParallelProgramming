@@ -1,4 +1,4 @@
-<project name="mappedbus" default="dist" basedir=".">
+<project name="mappedbus" default="dist" basedir="Mappedbus">
     <description>
         MappedBus
     </description>
@@ -26,10 +26,10 @@
     <!-- Create the time stamp -->
     <tstamp/>
     <!-- Create directories if needed -->
-    <mkdir dir="${src}"/>
-    <mkdir dir="${test}"/>
+    <mkdir dir="/main"/>
+    <mkdir dir="/test"/>
     <mkdir dir="${build}"/>
-    <mkdir dir="${dist}"/>
+    <mkdir dir="/dist"/>
   </target>
 
   <target name="compile" depends="init" description="compile the source " >
@@ -42,7 +42,7 @@
 	   classpathref="project.classpath"/>
     <!-- Copy files from ${src} into ${build} -->
     <copy todir="${build}"> 
-        <fileset dir="${src}">
+        <fileset dir="/main">
           <exclude name="**/*.java"/>
         </fileset>
     </copy>
@@ -52,7 +52,7 @@
     <junit printsummary="yes" fork="yes" haltonfailure="yes">
       <formatter type="plain"/>
       <batchtest fork="true">
-        <fileset dir="${test}">
+        <fileset dir="/test">
           <include name="**/*Test.java"/>
         </fileset>
       </batchtest>
@@ -72,14 +72,14 @@
     <!-- Create the distribution directory -->
 
     <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
-    <jar jarfile="${dist}/${jarname}-${version}.jar" basedir="${build}">
+    <jar jarfile="/dist/${jarname}-${version}.jar" basedir="${build}">
         <manifest>
         <attribute name="Main-Class"
                 value="${main_class_name}"/>
         </manifest>
-        <fileset dir="${src}" includes="**/*.java"/>
+        <fileset dir="/main" includes="**/*.java"/>
     </jar>
-    <copy file="${dist}/${jarname}-${version}.jar" tofile="./${jarname}.jar" overwrite="true"/>
+    <copy file="/dist/${jarname}-${version}.jar" tofile="./${jarname}.jar" overwrite="true"/>
   </target>
 
   <target name="clean"

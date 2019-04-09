@@ -1,4 +1,4 @@
-package io.mappedbus.perf;
+package perf.io.mappedbus.perf;
 import main.io.mappedbus.MappedBusReader;
 import main.io.mappedbus.MappedBusMessage;
 import perf.io.mappedbus.perf.PriceUpdate;

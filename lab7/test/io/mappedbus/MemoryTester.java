@@ -87,7 +87,7 @@ public class MemoryTester {
 		if(expected == actual) {
 			System.out.println(name + " was " + actual + " as expected.");			
 		} else {
-			System.out.println("TEST FAILED: " + name + " was " + actual + ", but expected " + expected + ".");			
+			System.out.println("TEST FAILED: " + name + " was " + actual + ", but expected " + expected + "");
 			System.exit(0);
 		}
 	}
