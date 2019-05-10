@@ -12,7 +12,7 @@ public class ByteArrayWriter {
 
 	public void run(int source) {
 		try {
-			MappedBusWriter writer = new MappedBusWriter("/tmp/test-bytearray", 2000000L, 10);
+			MappedBusWriter writer = new MappedBusWriter("/tmp/test-lab7", 2000000L, 10);
 			writer.open();
 			
 			byte[] buffer = new byte[10];
@@ -20,7 +20,7 @@ public class ByteArrayWriter {
 			for (int i = 0; i < 1000; i++) {
 				Arrays.fill(buffer, (byte)source);
 				writer.write(buffer, 0, buffer.length);
-				Thread.sleep(1000);
+				Thread.sleep(1);
 			}
 		} catch(Exception e) {
 			e.printStackTrace();

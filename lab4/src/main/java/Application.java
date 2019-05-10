@@ -1,3 +1,4 @@
+package main.java;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -5,64 +6,59 @@ import java.util.Map;
 import java.util.concurrent.*;
 
 public class Application {
-    private final static int THREAD_POOL_SIZE = 2;
+    private final static int THREAD_POOL_SIZE = 8;
 
     private static Map<String, Integer> hashmap = null;
     private static Map<String, Integer> hashtable = null;
     private static Map<String, Integer> synchronizedMap = null;
     private static Map<String, Integer> concurrentHashMap = null;
 
-
     public static void main(String[] args) throws InterruptedException {
 
         hashmap = new HashMap<String, Integer>();
-        crunchifyPerformTest(hashmap);
+        PerformTest(hashmap);
 
         hashtable = new Hashtable<String, Integer>();
-        crunchifyPerformTest(hashtable);
+        PerformTest(hashtable);
 
         synchronizedMap = Collections.synchronizedMap(new HashMap<String, Integer>());
-        crunchifyPerformTest(synchronizedMap);
+        PerformTest(synchronizedMap);
 
         concurrentHashMap = new ConcurrentHashMap<String, Integer>();
-        crunchifyPerformTest(concurrentHashMap);
-        //System.out.println(ForkJoinPool.getCommonPoolParallelism());
+        PerformTest(concurrentHashMap);
     }
 
-    private static void crunchifyPerformTest(final Map<String, Integer> crunchifyThreads) throws InterruptedException {
+    private static void PerformTest(final Map<String, Integer> map) throws InterruptedException {
 
-        System.out.println("Test started for: " + crunchifyThreads.getClass());
+        System.out.println("Test started for: " + map.getClass());
         long averageTime = 0;
         for (int i = 0; i < 5; i++) {
 
             long startTime = System.nanoTime();
-            ExecutorService crunchifyExServer = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
-
+            ExecutorService ExServer = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
 
             for (int j = 0; j < THREAD_POOL_SIZE; j++) {
-                crunchifyExServer.execute (() -> {
+                ExServer.execute (() -> {
                     for (int i1 = 0; i1 < 500000; i1++) {
-                        Integer crunchifyRandomNumber = (int) Math.ceil(Math.random() * 550000);
+                        Integer RandomNumber = (int) Math.ceil(Math.random() * 550000);
 
                         // Retrieve value. We are not using it anywhere
-                        Integer crunchifyValue = crunchifyThreads.get(String.valueOf(crunchifyRandomNumber));
+                        Integer Value = map.get(String.valueOf(RandomNumber));
 
                         // Put value
-                        crunchifyThreads.put(String.valueOf(crunchifyRandomNumber), crunchifyRandomNumber);
+                        map.put(String.valueOf(RandomNumber), RandomNumber);
                     }
                 });
             }
-            crunchifyExServer.shutdown();
+            ExServer.shutdown();
 
-            // Blocks until all tasks have completed execution after a shutdown request, or the timeout occurs, or the current thread is
-            // interrupted, whichever happens first.
-            crunchifyExServer.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
+            ExServer.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
 
             long entTime = System.nanoTime();
             long totalTime = (entTime - startTime) / 1000000L;
             averageTime += totalTime;
             System.out.println(totalTime + " ms");
         }
-        System.out.println("For " + crunchifyThreads.getClass() + " the average time is " + averageTime / 5 + " ms\n");
+        System.out.println("For " + map.getClass() + " the average time is " + averageTime / 5 + " ms\n");
     }
 }
